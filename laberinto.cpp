@@ -13,33 +13,27 @@ void imprimir(const vector<vector<char>>& laberinto) {
 }
 
 void EntradaSalida(vector<vector<char>>& laberinto) {
-    int entradaFila = -1;
-    int entradaColumna;
-    int salidaFila = -1;
-    int salidaColumna;
-
-    for (int fila = 0; fila < laberinto.size(); ++fila) {
-        for (int columna = 0; columna < laberinto[fila].size(); ++columna) {
-            if (laberinto[fila][columna] == ' ') {
-                if (entradaFila == -1) {
-                    entradaFila = fila;
-                    entradaColumna = columna;
-                }
-                else {
-                    salidaFila = fila;
-                    salidaColumna = columna;
-                }
-            }
+    // Buscar la entrada y la salida en los bordes superiores e inferiores
+    for (int columna = 0; columna < laberinto[0].size(); ++columna) {
+        if (laberinto[0][columna] == ' ') {
+            laberinto[0][columna] = 'e';
+        }
+        if (laberinto[laberinto.size() - 1][columna] == ' ') {
+            laberinto[laberinto.size() - 1][columna] = 's';
         }
     }
 
-    if (entradaFila != -1) {
-        laberinto[entradaFila][entradaColumna] = 'e';
-    }
-    if (salidaFila != -1) {
-        laberinto[salidaFila][salidaColumna] = 's';
+    // Buscar la entrada y la salida en los bordes izquierdo y derecho
+    for (int fila = 0; fila < laberinto.size(); ++fila) {
+        if (laberinto[fila][0] == ' ') {
+            laberinto[fila][0] = 'e';
+        }
+        if (laberinto[fila][laberinto[fila].size() - 1] == ' ') {
+            laberinto[fila][laberinto[fila].size() - 1] = 's';
+        }
     }
 }
+
 
 bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna) {
     if (fila < 0 || fila >= laberinto.size() || columna < 0 || columna >= laberinto[fila].size() ||
