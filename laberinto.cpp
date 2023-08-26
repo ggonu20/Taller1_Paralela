@@ -43,7 +43,7 @@ void EntradaSalida(vector<vector<char>>& laberinto) {
 
 bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna) {
     if (fila < 0 || fila >= laberinto.size() || columna < 0 || columna >= laberinto[fila].size() ||
-        laberinto[fila][columna] == '#' || laberinto[fila][columna] == '.' || laberinto[fila][columna] == '*') {
+        laberinto[fila][columna] == '#' || laberinto[fila][columna] == '*') {
         return false; // Fuera de los límites, es una pared o ya visitado
     }
 
@@ -57,10 +57,10 @@ bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna
 
     // Intentamos moverse en todas las direcciones (arriba, abajo, izquierda, derecha)
     if (
-        Encontrar_camino_dfs(laberinto, fila, columna + 1)|| // Derecha
+        Encontrar_camino_dfs(laberinto, fila, columna + 1) || // Derecha
         Encontrar_camino_dfs(laberinto, fila + 1, columna) || // Abajo
-        Encontrar_camino_dfs(laberinto, fila, columna - 1) || // Izquierda
-        Encontrar_camino_dfs(laberinto, fila - 1, columna)) { // Arriba
+        Encontrar_camino_dfs(laberinto, fila - 1, columna) || // Arriba
+        Encontrar_camino_dfs(laberinto, fila, columna - 1)) { // Izquierda
         return true;
     }
 
