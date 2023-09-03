@@ -13,33 +13,54 @@ void imprimir(const vector<vector<char>>& laberinto) {
 }
 
 void EntradaSalida(vector<vector<char>>& laberinto) {
-    int entradaFila = -1;
-    int entradaColumna;
-    int salidaFila = -1;
-    int salidaColumna;
+    int filas = laberinto.size();
+    int columnas = laberinto[0].size();
+    
+    int filaEntrada = -1;
+    int columnaEntrada = -1;
+    int filaSalida = -1;
+    int columnaSalida = -1;
 
-    for (int fila = 0; fila < laberinto.size(); ++fila) {
-        for (int columna = 0; columna < laberinto[fila].size(); ++columna) {
-            if (laberinto[fila][columna] == ' ') {
-                if (entradaFila == -1) {
-                    entradaFila = fila;
-                    entradaColumna = columna;
-                }
-                else {
-                    salidaFila = fila;
-                    salidaColumna = columna;
-                }
-            }
+    // Buscar la entrada en los bordes izquierdo y derecho
+    for (int fila = 0; fila < filas; ++fila) {
+        if (laberinto[fila][0] == ' ') {
+            filaEntrada = fila;
+            columnaEntrada = 0;
+            break;
+        }
+        if (laberinto[fila][columnas - 1] == ' ') {
+            filaSalida = fila;
+            columnaSalida = columnas - 1;
+            break;
         }
     }
 
-    if (entradaFila != -1) {
-        laberinto[entradaFila][entradaColumna] = 'e';
+    // Buscar la entrada en los bordes superior e inferior
+    for (int columna = 0; columna < columnas; ++columna) {
+        if (laberinto[0][columna] == ' ') {
+            filaEntrada = 0;
+            columnaEntrada = columna;
+            break;
+        }
+        if (laberinto[filas - 1][columna] == ' ') {
+            filaSalida = filas - 1;
+            columnaSalida = columna;
+            break;
+        }
     }
-    if (salidaFila != -1) {
-        laberinto[salidaFila][salidaColumna] = 's';
+
+    // Marcar la entrada y la salida
+    if (filaEntrada != -1 && columnaEntrada != -1) {
+        laberinto[filaEntrada][columnaEntrada] = 'e';
+    }
+    if (filaSalida != -1 && columnaSalida != -1) {
+        laberinto[filaSalida][columnaSalida] = 's';
     }
 }
+
+
+
+
 
 bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna) {
     if (fila < 0 || fila >= laberinto.size() || columna < 0 || columna >= laberinto[fila].size() ||
@@ -68,6 +89,27 @@ bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna
     laberinto[fila][columna] = temp;
 
     return false;
+}
+
+void guardar(vector<vector<char>>& laberinto){
+        cout << "\nSe guardara el archivo en nuevo2.txt...\n";
+        ofstream salida("nuevo2.txt");
+        if (salida.is_open()) {
+        // Escribir la matriz en el archivo
+        for (int i = 0; i<laberinto.size(); ++i) {
+            for (int j = 0; j<laberinto[i].size(); ++j) {
+                salida << laberinto[i][j] ;
+            }
+            salida <<endl; // Nueva línea al final de cada fila
+        }
+
+        // Cerrar el archivo
+        salida.close();
+        cout << "\nGuardado exitosamente en 'nuevo2.txt\n";
+    } else {
+        cerr << "No se pudo abrir el archivo para escritura.\n";
+    }
+
 }
 
 
@@ -124,12 +166,17 @@ int main() {
 
     // Llamamos a la función para encontrar el camino
     if (Encontrar_camino_dfs(laberinto, entradaFila, entradaColumna)) {
-        cout << "\n¡Camino encontrado!\n";
+        cout << "\nCamino encontrado\n";
         imprimir(laberinto);
+        guardar(laberinto);
+
     }
     else {
         cout << "\nNo se encontró un camino.\n";
     }
 
+    
+
     return 0;
+
 }
