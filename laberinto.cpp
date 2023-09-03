@@ -64,6 +64,27 @@ bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna
     return false;
 }
 
+void guardar(vector<vector<char>>& laberinto){
+        cout << "\nSe guardara el archivo en nuevo2.txt...\n";
+        ofstream salida("nuevo2.txt");
+        if (salida.is_open()) {
+        // Escribir la matriz en el archivo
+        for (int i = 0; i<laberinto.size(); ++i) {
+            for (int j = 0; j<laberinto[i].size(); ++j) {
+                salida << laberinto[i][j] ;
+            }
+            salida <<endl; // Nueva línea al final de cada fila
+        }
+
+        // Cerrar el archivo
+        salida.close();
+        cout << "\nGuardado exitosamente en 'nuevo2.txt\n";
+    } else {
+        cerr << "No se pudo abrir el archivo para escritura.\n";
+    }
+
+}
+
 
 
 
@@ -118,12 +139,17 @@ int main() {
 
     // Llamamos a la función para encontrar el camino
     if (Encontrar_camino_dfs(laberinto, entradaFila, entradaColumna)) {
-        cout << "\n¡Camino encontrado!\n";
+        cout << "\nCamino encontrado\n";
         imprimir(laberinto);
+        guardar(laberinto);
+
     }
     else {
         cout << "\nNo se encontró un camino.\n";
     }
 
+    
+
     return 0;
+
 }
