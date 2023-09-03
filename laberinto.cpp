@@ -13,26 +13,53 @@ void imprimir(const vector<vector<char>>& laberinto) {
 }
 
 void EntradaSalida(vector<vector<char>>& laberinto) {
-    // Buscar la entrada y la salida en los bordes superiores e inferiores
-    for (int columna = 0; columna < laberinto[0].size(); ++columna) {
-        if (laberinto[0][columna] == ' ') {
-            laberinto[0][columna] = 'e';
+    int filas = laberinto.size();
+    int columnas = laberinto[0].size();
+    
+    int filaEntrada = -1;
+    int columnaEntrada = -1;
+    int filaSalida = -1;
+    int columnaSalida = -1;
+
+    // Buscar la entrada en los bordes izquierdo y derecho
+    for (int fila = 0; fila < filas; ++fila) {
+        if (laberinto[fila][0] == ' ') {
+            filaEntrada = fila;
+            columnaEntrada = 0;
+            break;
         }
-        if (laberinto[laberinto.size() - 1][columna] == ' ') {
-            laberinto[laberinto.size() - 1][columna] = 's';
+        if (laberinto[fila][columnas - 1] == ' ') {
+            filaSalida = fila;
+            columnaSalida = columnas - 1;
+            break;
         }
     }
 
-    // Buscar la entrada y la salida en los bordes izquierdo y derecho
-    for (int fila = 0; fila < laberinto.size(); ++fila) {
-        if (laberinto[fila][0] == ' ') {
-            laberinto[fila][0] = 'e';
+    // Buscar la entrada en los bordes superior e inferior
+    for (int columna = 0; columna < columnas; ++columna) {
+        if (laberinto[0][columna] == ' ') {
+            filaEntrada = 0;
+            columnaEntrada = columna;
+            break;
         }
-        if (laberinto[fila][laberinto[fila].size() - 1] == ' ') {
-            laberinto[fila][laberinto[fila].size() - 1] = 's';
+        if (laberinto[filas - 1][columna] == ' ') {
+            filaSalida = filas - 1;
+            columnaSalida = columna;
+            break;
         }
     }
+
+    // Marcar la entrada y la salida
+    if (filaEntrada != -1 && columnaEntrada != -1) {
+        laberinto[filaEntrada][columnaEntrada] = 'e';
+    }
+    if (filaSalida != -1 && columnaSalida != -1) {
+        laberinto[filaSalida][columnaSalida] = 's';
+    }
 }
+
+
+
 
 
 bool Encontrar_camino_dfs(vector<vector<char>>& laberinto, int fila, int columna) {
